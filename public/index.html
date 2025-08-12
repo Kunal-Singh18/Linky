@@ -18,6 +18,18 @@
       margin-top: 20px;
       font-weight: bold;
     }
+    #copy-btn {
+      padding: 6px 10px;
+      font-size: 14px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #copy-msg {
+      color: green;
+      font-size: 14px;
+      display: none;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
@@ -26,6 +38,7 @@
   <br><br>
   <button onclick="shortenUrl()">Shorten</button>
   <div id="short-url"></div>
+  <div id="copy-msg">Copied!</div>
 
   <script>
     async function shortenUrl() {
@@ -39,9 +52,24 @@
       });
 
       const data = await response.json();
-      const shortId = data.id;;
+      const shortId = data.id;
       const fullShortUrl = `${window.location.origin}/${shortId}`;
-      document.getElementById('short-url').innerText = `Short URL: ${fullShortUrl}`;
+      
+      // Display the shortened link with a copy button
+      document.getElementById('short-url').innerHTML = `
+        Short URL: <a href="${fullShortUrl}" target="_blank">${fullShortUrl}</a>
+        <button id="copy-btn" onclick="copyToClipboard('${fullShortUrl}')">Copy</button>
+      `;
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById('copy-msg');
+        msg.style.display = 'inline';
+        setTimeout(() => {
+          msg.style.display = 'none';
+        }, 1500);
+      });
     }
   </script>
 </body>
