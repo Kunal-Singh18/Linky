@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json()); 
 
-connectto("mongodb://localhost:27017/short-url").then(()=>console.log("Mongodb connected"));
+connectto("mongodb+srv://22bec054:<db_password>@cluster0.tf7w3xx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>console.log("Mongodb connected"));
 app.use('/url',urlRoute);
 app.get('/:var1', async (req,res)=>{
     const shortId = req.params.var1; 
@@ -37,3 +37,4 @@ app.get('/:var1', async (req,res)=>{
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
